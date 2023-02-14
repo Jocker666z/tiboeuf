@@ -45,15 +45,18 @@ while :; do
 				valid_number="1"
 			fi
 		done
-		# Result
+		# Result & play
 		if [[ "$valid_number" = "1" ]]; then
-			"$mpv_bin" "${lst_radio_url[$radio]}" --display-tags=icy-title
+			"$mpv_bin" "${lst_radio_url[$radio]}"
 		else
-			echo "This radio is not in list."
+			echo "This radio number is not in list."
 		fi
 		# Reset test
 		unset valid_number
 
+	elif [[ "$radio" = "q" ]]; then
+		echo "Goodbye Space Cowboy."
+		exit
 	else
 		echo "Enter an integer."
 	fi
