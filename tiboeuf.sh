@@ -2,6 +2,7 @@
 # shellcheck disable=SC2002
 # tiboeuf
 
+# Setup
 mpv_bin() {
 local bin_name
 local system_bin_location
@@ -27,15 +28,33 @@ if [[ -f "$radio_db_path" ]] && [[ -z $(< "$radio_db_path") ]] ; then
 fi
 }
 
-array_radio_url() {
-mapfile -t lst_radio_url < <( cat "$radio_db_path" | awk -F'|' '{print $NF}' | column -t )
+# Tools
+echo_separator() {
+tput dim
+printf "%*s" "$term_width" "" | tr ' ' "-"; echo
+tput sgr0
+}
+kill() {
+stty sane
+exit
 }
 
-radio_choice() {
+# main
+array_radio() {
+# Title
+mapfile -t lst_radio_title < <( cat "$radio_db_path" | awk -F'|' '{print $1}')
+# URL
+mapfile -t lst_radio_url < <( cat "$radio_db_path" | awk -F'|' '{print $NF}')
+}
+print_radio_list() {
+tput bold sitm
+echo "  < tiboeuf Radio List >"
+tput sgr0
 cat "$radio_db_path" | column -s $'|' -t | nl -v 0
-
+}
+radio_choice() {
 while :; do
-	read -r -e -p "-> " radio
+	read -r -e -p "  -> " radio
 
 	if [[ "$radio" =~ ^[0-9]+$ ]]; then
 
@@ -47,6 +66,10 @@ while :; do
 		done
 		# Result & play
 		if [[ "$valid_number" = "1" ]]; then
+			# Title
+			echo_separator
+			echo "Listen ${lst_radio_title[$radio]}: ${lst_radio_url[$radio]}"
+			# Listen
 			"$mpv_bin" "${lst_radio_url[$radio]}"
 		else
 			echo "This radio number is not in list."
@@ -64,12 +87,16 @@ while :; do
 done
 }
 
+trap 'kill' SIGINT
 export PATH=$PATH:/home/$USER/.local/bin
+term_width=$(stty size | awk '{print $2}')
 tiboeuf_path="$( cd "$( dirname "$0" )" && pwd )"
 radio_db_path="${tiboeuf_path}/radio.db"
 
+# Setup
 mpv_bin
 radio_db_test
-
-array_radio_url
+# main
+array_radio
+print_radio_list
 radio_choice
