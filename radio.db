@@ -1,3 +1,12 @@
-France Info|Info|http://icecast.radiofrance.fr/franceinfo-hifi.aac
-RMC Info Talk Sport|Info|https://audio.bfmtv.com/rmcradio_128.mp3
-Radio Nova|Musique|http://radionova.ice.infomaniak.ch/radionova-256.aac
+France Info|Info|fr|http://icecast.radiofrance.fr/franceinfo-hifi.aac
+RMC Info Talk Sport|Info|fr|https://audio.bfmtv.com/rmcradio_128.mp3
+OÜI FM|Music|fr|http://ouifm.ice.infomaniak.ch/ouifm-high.mp3
+OÜI FM Classic Rock|Music|int|http://ouifm3.ice.infomaniak.ch/ouifm3.mp3
+OÜI GANJA|Reggae|int|http://ouifmganja.ice.infomaniak.ch/ouifmganja-128.mp3
+Radio Nova|Music|fr|http://radionova.ice.infomaniak.ch/radionova-256.aac
+France Musique Cinéma|Cinema|int|http://direct.francemusique.fr/live/francemusiquelabo-hifi.aac
+Soundtrack Radio Station|Cinema|int|https://igor.torontocast.com:1795/stream
+NoLife Radio|Game Music|int|http://listen.nolife-radio.com
+Rainwave|Game Music|int|http://allrelays.rainwave.cc/all.mp3
+Rainwave Chiptune|Game Music|int|http://allrelays.rainwave.cc/chiptune.mp3
+Rainwave OC Remix|Game Music|int|http://allrelays.rainwave.cc/ocremix.mp3

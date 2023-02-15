@@ -66,11 +66,18 @@ while :; do
 		done
 		# Result & play
 		if [[ "$valid_number" = "1" ]]; then
+
 			# Title
 			echo_separator
 			echo "Listen ${lst_radio_title[$radio]}: ${lst_radio_url[$radio]}"
+
 			# Listen
 			"$mpv_bin" "${lst_radio_url[$radio]}"
+
+			# If quit
+			echo_separator
+			print_radio_list
+
 		else
 			echo "This radio number is not in list."
 		fi
@@ -82,6 +89,7 @@ while :; do
 		exit
 	else
 		echo "Enter an integer."
+
 	fi
 
 done
