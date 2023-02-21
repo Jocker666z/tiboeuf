@@ -29,6 +29,19 @@ fi
 }
 
 # Tools
+term_size() {
+term_width_trunc=$(stty size | awk '{print $2}' | awk '{ print $1 - 10 }')
+}
+echo_truncate() {
+local label
+label="$1"
+
+if [[ "${#label}" -gt "$term_width_trunc" ]]; then
+	echo "$label" | cut -c 1-"$term_width_trunc" | awk '{print $0"..."}'
+else
+	echo "$label"
+fi
+}
 echo_separator() {
 tput dim
 printf "%*s" "$term_width" "" | tr ' ' "-"; echo
@@ -47,10 +60,13 @@ mapfile -t lst_radio_title < <( cat "$radio_db_path" | awk -F'|' '{print $1}')
 mapfile -t lst_radio_url < <( cat "$radio_db_path" | awk -F'|' '{print $NF}')
 }
 print_radio_list() {
+
+term_size
+
 tput bold sitm
 echo "  < tiboeuf Radio List >"
 tput sgr0
-cat "$radio_db_path" | column -s $'|' -t | nl -v 0
+cat "$radio_db_path" | column -s $'|' -t | cut -c -"$term_width_trunc" | nl -v 0
 }
 radio_choice() {
 while :; do
@@ -69,7 +85,7 @@ while :; do
 
 			# Title
 			echo_separator
-			echo "Listen ${lst_radio_title[$radio]}: ${lst_radio_url[$radio]}"
+			echo_truncate "Listen ${lst_radio_title[$radio]}: ${lst_radio_url[$radio]}"
 
 			# Listen
 			"$mpv_bin" "${lst_radio_url[$radio]}"
